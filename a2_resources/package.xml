@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>a2_resources</name>
+  <version>0.1.0</version>
+  <description>Provides robot, map and sensor description files for STDR Simulator in Assignment 2</description>
+
+  <maintainer email="up201304197@fe.up.pt">Joao Costa</maintainer>
+  <maintainer email="up201302828@fe.up.pt">Gustavo Pinto</maintainer>
+
+  <license>GPLv3</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+  </export>
+</package>

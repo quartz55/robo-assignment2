@@ -1,0 +1,8 @@
+<launch>
+	<include file="$(find stdr_robot)/launch/robot_manager.launch" />
+	<node type="stdr_server_node" pkg="stdr_server" name="stdr_server" output="screen" args="$(find a2_resources)/maps/double_d_map.yaml"/>
+	<node pkg="tf" type="static_transform_publisher" name="world2map" args="0 0 0 0 0 0  world map 100" />
+	<include file="$(find stdr_gui)/launch/stdr_gui.launch"/>
+	<node name="follow_wall" pkg="a2_follow_wall" type="follow_wall"/>
+	<node pkg="stdr_robot" type="robot_handler" name="robot0" args="add $(find a2_resources)/robots/two_sonars.yaml 3 3 0" />
+</launch>
