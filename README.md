@@ -1,8 +1,35 @@
 # ROBO 2017/2018 Assignment 2
+Basic wall following behaviour for a STDR robot based on Subsumption Architecture
 
 ## Requirements
 - [ROS Lunar Loggerhead](http://wiki.ros.org/lunar)
-- [STDR Simulator](#installing_stdr)
+- [STDR Simulator](#compiling)
+
+## Directory structure
+```
+catkin_ws  
+│
+└───src
+    │
+    └───assignment2
+    │   │
+    │   └───a2_follow_wall
+    │   │   │
+    │   │   │ ...
+    │   │
+    │   └───a2_resources
+    │   │   │
+    │   │   │ ...
+    │   │
+    │   └───a2_launchers
+    │       │ 
+    │       │ ...
+    │
+    └───stdr_simulator
+        │
+        │ ...
+    
+```
 
 ## Compiling
 1. Create a catkin workspace
@@ -31,18 +58,18 @@
     cd ~/catkin_ws
     source devel/setup.bash
     ```
-    
+
 2. Run one of the available examples
     - Launching Double D map with a placed robot
         ```
         roslaunch a2_launchers double_d_map_with_robot.launch
         ```
     
-    - Launching Double D map with no robots (can be placed manually)
+    - Launching Double D map with no robots (can be [added manually](#extras))
         ```
         roslaunch a2_launchers double_d_map.launch
         ```
 
 ## Extras
-- To move a robot, right click on it on the map, choose `Move robot` and then click anywhere on the map you wish to place the robot
-- To add a robot to an empty map, click the 2nd button to the left on the top toolbar, navigate to `<source_code>/a2_resources/robots` and choose on of the `.yaml` files
+- To move a robot, right click on it on the GUI, choose `Move robot` and then click anywhere on the map where you wish to place the robot
+- To add a robot to an empty map, click the 2nd button to the left on the top toolbar, navigate to `<source_code>/a2_resources/robots` and choose one of the available `.yaml` files
