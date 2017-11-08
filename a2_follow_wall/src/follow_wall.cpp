@@ -13,6 +13,7 @@ struct State {
     sensor_msgs::Range left;
     sensor_msgs::Range right;
     Wall following;
+    bool is_searching;
 };
 
 State state;
@@ -25,6 +26,10 @@ void left_sensor_callback(const sensor_msgs::Range range)
 void right_sensor_callback(const sensor_msgs::Range range)
 {
     state.right = range;
+}
+
+void giveup(const ros::TimerEvent& event) {
+    state.is_searching = false;
 }
 
 float distance_percentage(const sensor_msgs::Range range)
@@ -44,6 +49,7 @@ int main(int argc, char *argv[])
     ros::Rate rate(10);
 
     state.following = Wall::NONE;
+    state.is_searching = false;
     while(ros::ok()) {
         // Check sensors
         ros::spinOnce();
@@ -53,32 +59,37 @@ int main(int argc, char *argv[])
         float distance_left = distance_percentage(state.left);
         float distance_right = distance_percentage(state.right);
         // Avoid collision
-        if (distance_left + distance_right < 0.5) {
-            if (state.following == Wall::RIGHT) {
-                msg.angular.z = 1;
-                msg.linear.x = 0.2;
-            } else {
-                msg.angular.z = -1;
-                msg.linear.x = 0.2;
-            }
-        } else if (distance_left < 0.1) {
+        if (distance_left < 0.1) {
             msg.angular.z = -1;
         } else if (distance_right < 0.1) {
             msg.angular.z = 1;
         // Follow wall
-        } else if (distance_left >= 0.1 && distance_left < 1 && state.following != Wall::RIGHT) {
+        } else if (distance_left >= 0.1 && distance_left < 1 && (state.following != Wall::RIGHT || state.is_searching)) {
+            state.is_searching = false;
             state.following = Wall::LEFT;
             msg.linear.x = 0.6;
             msg.angular.z = -4 * (0.25 - distance_left);
-        } else if (distance_right >= 0.1 && distance_right < 1 && state.following != Wall::LEFT) {
+        } else if (distance_right >= 0.1 && distance_right < 1 && (state.following != Wall::LEFT || state.is_searching)) {
+            state.is_searching = false;
             state.following = Wall::RIGHT;
             msg.linear.x = 0.6;
             msg.angular.z = 4 * (0.25 - distance_right);
-        // Wander            
-        } else {
+        } 
+        // Recover wall
+        else if (state.following != Wall::NONE) {
+            state.is_searching = true;
+            ros::Timer timer = nh.createTimer(ros::Duration(1), giveup, true);
+            if (state.following == Wall::LEFT) {
+                msg.angular.z = 1;
+            } else {
+                msg.angular.z = -1;
+            }
+        }
+        // Wander
+        else if (!state.is_searching) {
             state.following = Wall::NONE;
             msg.linear.x = 1;
-            msg.angular.z = 2 * double(rand())/double(RAND_MAX) - 1;
+            msg.angular.z = 4 * double(rand())/double(RAND_MAX) - 1;
         }
 
         pub.publish(msg);
