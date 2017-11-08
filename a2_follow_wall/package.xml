@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>a2_follow_wall</name>
+  <version>0.1.0</version>
+  <description>Basic wall following behavior for a robot with 2 sonars</description>
+
+  <maintainer email="up2013041972@fe.up.pt">Joao Costa</maintainer>
+  <maintainer email="up201302828@fe.up.pt">Gustavo Pinto</maintainer>
+
+  <license>GPLv3</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+  </export>
+  <build_depend>roscpp</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>geometry_msgs</build_export_depend>
+  <build_export_depend>sensor_msgs</build_export_depend>
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+</package>
