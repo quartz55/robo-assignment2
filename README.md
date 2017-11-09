@@ -48,7 +48,7 @@ catkin_ws
 
 3. Install source code
     ```
-    mv <source_code_folder> src/assignment2
+    cp -r <source_code_folder>/assignment2 src/
     catkin_make
     ```
 
